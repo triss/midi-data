@@ -31,7 +31,7 @@ run again.
 
 ## Copyright
 
-Copyright © 2000 Tristan Strange <tristan.strange@gmail.com>
+Copyright © 2015 Tristan Strange <tristan.strange@gmail.com>
 
 This work is free. You can redistribute it and/or modify it under the
 terms of the Do What The Fuck You Want To Public License, Version 2,
