@@ -4,7 +4,7 @@ Handles parsing of MIDI data tuples to maps containing friendly representations 
 
 ## Install
 
-Add the following dependency to your project.clj file:
+Add the following dependency to your `project.clj` file:
 ```
 [triss/midi-data "0.1.0"]
 ```
