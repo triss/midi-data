@@ -2,6 +2,13 @@
 
 Handles parsing of MIDI data tuples to maps containing friendly representations of the events they represent.
 
+## Install
+
+Add the following dependency to your project.clj file:
+```
+[triss/midi-data "0.1.0"]
+```
+
 ## Documentation
 
 Documentation for this project has been written in a literate style and can be

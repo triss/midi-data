@@ -1,4 +1,4 @@
-(defproject midi-data "0.1.0"
+(defproject org.clojars.triss/midi-data "0.1.0"
   :description "Handles parsing of MIDI data tuples to maps containing friendly
                representations of the events they represent."
   :url "https://github.com/triss/midi-data/"
