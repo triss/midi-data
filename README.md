@@ -28,3 +28,10 @@ The project uses [Midje](https://github.com/marick/Midje/) for testing.
 `lein midje :autotest` will run all the tests indefinitely. It sets up a
 watcher on the code files. If they change, only the relevant tests will be
 run again.
+
+## Copyright
+
+Copyright © 2000 Tristan Strange <tristan.strange@gmail.com>
+This work is free. You can redistribute it and/or modify it under the
+terms of the Do What The Fuck You Want To Public License, Version 2,
+as published by Sam Hocevar. See http://www.wtfpl.net/ for more details.
