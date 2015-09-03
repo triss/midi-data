@@ -1,16 +1,20 @@
-(ns midi-data.core
-  "MIDI data is often presented by as a list of three values: `[a b c]`.
- 
-  This namespace handle's parsing of MIDI data tuples to maps containing
-  friendly representation of the events they represent.
-  
-  `decode` translates from MIDI data tuple to map.
-  `encode` translates from map back to a MIDI data tuple.
+;; MIDI data is often presented by as a list of three values: `[a b c]`.
+;; 
+;; This namespace handle's parsing of MIDI data tuples to maps containing
+;; friendly representation of the events they represent.
+;;  
+;; The values `[a b c]` encode are:
+;;
+;; - `a` - message type and some times a channel for that message type.
+;; - `b` - note or paramater number for message.
+;; - `c` - velocity or value for message.
+;;
+;; ## Usage:
+;;
+;; - `(decode [a b c])` translates from MIDI data tuple to map.
+;; - `(encode m)` translates from map back to a MIDI data tuple.
 
-  They each encode:
-  - msg type and some times a channel for that msg type
-  - note or paramater number for event
-  - velocity or value for event.")
+(ns midi-data.core)
 
 ;; ## MIDI Message types
 
