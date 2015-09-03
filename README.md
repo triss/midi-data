@@ -5,7 +5,7 @@ Handles parsing of MIDI data tuples to maps containing friendly representations 
 ## Documentation
 
 Documentation for this project has been written in a literate style and can be
-generated using [marginalia](https://github.com/gdeer81/marginalia). Once
+generated using [Marginalia](https://github.com/gdeer81/marginalia). Once
 installed the simplest means for generating it is:
 ```
 lein marg .\src\midi_data\core.cljc .\test\midi_data\core_test.clj
