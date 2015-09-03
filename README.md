@@ -1,13 +1,8 @@
 # midi-data
 
+[![Clojars Project](http://clojars.org/org.clojars.triss/midi-data/latest-version.svg)](http://clojars.org/org.clojars.triss/midi-data)
+
 Handles parsing of MIDI data tuples to maps containing friendly representations of the events they represent.
-
-## Install
-
-Add the following dependency to your `project.clj` file:
-```
-[org.clojars.triss/midi-data "0.1.0-SNAPSHOT"]
-```
 
 ## Documentation
 
