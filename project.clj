@@ -3,6 +3,6 @@
                representations of the events they represent."
   :url "https://github.com/triss/midi-data/"
   :license {:name "Do What The Fuck You Want To Public License, Version 2"
-            :url  "http://www.wtfpl.net/"}
+            :url  "http://www.wtfpl.net/txt/copying"}
   :dependencies [[org.clojure/clojure "1.7.0"]]
   :profiles {:dev {:dependencies [[midje "1.7.0"]]}})
