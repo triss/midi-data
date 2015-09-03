@@ -5,9 +5,9 @@
 ;;  
 ;; The values `[a b c]` encode are:
 ;;
-;; - `a` - message type and some times a channel for that message type.
-;; - `b` - note or paramater number for message.
-;; - `c` - velocity or value for message.
+;; - `a` - *message type* and some times a *channel* for that message type.
+;; - `b` - *note* or *paramater number* for message.
+;; - `c` - *velocity* or *value* for message.
 ;;
 ;; ## Usage:
 ;;
