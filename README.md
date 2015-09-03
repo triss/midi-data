@@ -1,6 +1,6 @@
-# midi-data
-
 [![Clojars Project](http://clojars.org/org.clojars.triss/midi-data/latest-version.svg)](http://clojars.org/org.clojars.triss/midi-data)
+
+# midi-data
 
 Handles parsing of MIDI data tuples to maps containing friendly representations of the events they represent.
 
