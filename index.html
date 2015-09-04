@@ -2866,14 +2866,14 @@ net.brehaut.ClojureTools = (function (SH) {
     build_tree: build_tree
   };
 })(SyntaxHighlighter);
-</script><title>org.clojars.triss/midi-data -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name"><a href="https://github.com/triss/midi-data/">org.clojars.triss/midi-data</a></h1><h2 class="project-version">0.1.0-SNAPSHOT</h2><br /><p>Handles parsing of MIDI data tuples to maps containing friendly
+</script><title>org.clojars.triss/midi-data -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name"><a href="https://github.com/triss/midi-data/">org.clojars.triss/midi-data</a></h1><h2 class="project-version">0.1.1-SNAPSHOT</h2><br /><p>Handles parsing of MIDI data tuples to maps containing friendly
                representations of the events they represent.</p>
-</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.7.0</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#midi-data.core">midi-data.core</a></li><li><a href="#midi-data.core-test">midi-data.core-test</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#midi-data.core" name="midi-data.core"><h1 class="project-name">midi-data.core</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>MIDI data is often presented by as a list of three values: <code>[a b c]</code>.</p>
+</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.7.0</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#midi-data.core">midi-data.core</a></li><li><a href="#midi-data.core-test">midi-data.core-test</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#midi-data.core" name="midi-data.core"><h1 class="project-name">midi-data.core</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>MIDI data is often presented as a list of three values: <code>[a b c]</code>.</p>
 
-<p>This namespace handle's parsing of MIDI data tuples to maps containing
-friendly representation of the events they represent.</p>
+<p>This namespace handle's parsing of such MIDI data tuples to maps containing
+friendlier representation of the events they represent.</p>
 
-<p>The values <code>[a b c]</code> encode are:</p>
+<p>The values <code>[a b c]</code> encode encode the following:</p>
 
 <ul>
 <li><code>a</code> - <em>message type</em> and some times a <em>channel</em> for that message type.</li>
@@ -2888,7 +2888,8 @@ friendly representation of the events they represent.</p>
 <li><code>(encode m)</code> translates from map back to a MIDI data tuple.</li>
 </ul>
 </td><td class="codes"></td></tr><tr><td class="docs">
-</td><td class="codes"><pre class="brush: clojure">(ns midi-data.core)</pre></td></tr><tr><td class="docs"><h2>MIDI Message types</h2>
+</td><td class="codes"><pre class="brush: clojure">(ns midi-data.core
+  (:require [clojure.set :refer [map-invert]]))</pre></td></tr><tr><td class="docs"><h2>MIDI Message types</h2>
 </td><td class="codes"></td></tr><tr><td class="docs"><p>Maps MIDI message types to the numbers used to represent them.</p>
 </td><td class="codes"><pre class="brush: clojure">(def msg-type-&gt;n 
   {:clock    0xF8 :active   0xFE :sysex      0xF0 :eox     0xF7 
@@ -2898,7 +2899,7 @@ friendly representation of the events they represent.</p>
    :song-pos 0xF2 :song-sel 0xF3 :tune       0xF6})</pre></td></tr><tr><td class="docs"><p>Map of numbers to midi msg types. Channel numbers often need to be removed
   with a fn like quantize before they can be looked up using this.</p>
 </td><td class="codes"><pre class="brush: clojure">(def inverse-n-&gt;msg-type 
-  (clojure.set/map-invert msg-type-&gt;n))</pre></td></tr><tr><td class="docs"><p>Returns key representing meaning of numerical value. If n has channel number
+  (map-invert msg-type-&gt;n))</pre></td></tr><tr><td class="docs"><p>Returns key representing meaning of numerical value. If n has channel number
   encoded within it it is discarded.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn n-&gt;msg-type 
   [n] 
