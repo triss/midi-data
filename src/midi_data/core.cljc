@@ -32,12 +32,20 @@
   with a fn like quantize before they can be looked up using this."
   (map-invert msg-type->n))
 
+(defn n->channel
+  "Returns channel indicated by value. Typically used on first value of MIDI
+  data tuple."
+  [n] (bit-and n 0x0F))
+
+(defn strip-channel 
+  [n] (bit-and-not n 0xF))
+
 (defn n->msg-type 
   "Returns key representing meaning of numerical value. If n has channel number
   encoded within it it is discarded."
   [n] 
   (or (inverse-n->msg-type n) 
-      (-> n (bit-and-not 0xF) inverse-n->msg-type)))
+      (inverse-n->msg-type (strip-channel n))))
 
 ;; ### MIDI Message paramater types
 
