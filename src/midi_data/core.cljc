@@ -1,9 +1,9 @@
-;; MIDI data is often presented by as a list of three values: `[a b c]`.
+;; MIDI data is often presented as a list of three values: `[a b c]`.
 ;; 
-;; This namespace handle's parsing of MIDI data tuples to maps containing
-;; friendly representation of the events they represent.
+;; This namespace handle's parsing of such MIDI data tuples to maps containing
+;; friendlier representation of the events they represent.
 ;;  
-;; The values `[a b c]` encode are:
+;; The values `[a b c]` encode encode the following:
 ;;
 ;; - `a` - *message type* and some times a *channel* for that message type.
 ;; - `b` - *note* or *paramater number* for message.
@@ -14,7 +14,8 @@
 ;; - `(decode [a b c])` translates from MIDI data tuple to map.
 ;; - `(encode m)` translates from map back to a MIDI data tuple.
 
-(ns midi-data.core)
+(ns midi-data.core
+  (:require [clojure.set :refer [map-invert]]))
 
 ;; ## MIDI Message types
 
@@ -29,7 +30,7 @@
 (def inverse-n->msg-type 
   "Map of numbers to midi msg types. Channel numbers often need to be removed
   with a fn like quantize before they can be looked up using this."
-  (clojure.set/map-invert msg-type->n))
+  (map-invert msg-type->n))
 
 (defn n->msg-type 
   "Returns key representing meaning of numerical value. If n has channel number
