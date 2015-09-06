@@ -1,7 +1,7 @@
 ;; MIDI data is often presented as a list of three values: `[a b c]`.
 ;; 
-;; This namespace handle's parsing of such MIDI data tuples to maps containing
-;; friendlier representation of the events they represent.
+;; This namespace handle's parsing of MIDI data tuples to maps that
+;; represnt there content. 
 ;;  
 ;; The values `[a b c]` encode encode the following:
 ;;
@@ -55,10 +55,7 @@
   {:note-on [:note :velocity] :note-off [:note :velocity]
    :control [:number :value]})
 
-(defn n->channel 
-  "Returns channel indicated by value. Typically used on first value of MIDI
-  data tuple."
-  [n] (bit-and n 0x0F))
+
 
 ;; ## Decodeing
 
