@@ -6,7 +6,7 @@
 (def test-map 
   "Represents a note-on on channel 1 with velocity 100 and note of 60. "
   {:channel 1 
-   :msg-type :note-on 
+   :midi-msg :note-on 
    :note 60 
    :velocity 100})
 
