@@ -1,35 +1,35 @@
-;; MIDI data is often presented as a list of three values: `[a b c]`.
-;; 
-;; This namespace handle's parsing of MIDI data tuples to maps that
-;; represnt there content and back. 
-;;  
-;; The values `[a b c]` typically encode the following:
-;;
-;; - `a` - *message type* and some times a *channel* for that message type.
-;; - `b` - *note* or *paramater number* for message.
-;; - `c` - *velocity* or *value* for message.
-;;
-;; This namespace handles parsing of these to maps in the following format:
-;; 
-;; `{:midi-msg message-type ... message-type specific parsing tuple}`
-;; 
-;; Examples might be:
-;; `{:midi-msg :note-on  :note 60 :vel 60 :channel 1}`
-;; `{:midi-msg :note-off :note 60 :vel 60 :channel 1}`
-;; `{:midi-msg :control :number 10 :value 60 :channel 1}`
-;; `{:midi-msg :clock}`
-;; `{:midi-msg :start}`
-;; `{:midi-msg :stop}`
-;;
-;; ## Usage:
-;;
-;; - `(decode [a b c])` translates from MIDI data tuple to map.
-;; - `(encode m)` translates from map back to a MIDI data tuple.
-
 (ns midi-data.core
+  "MIDI data is often presented as a list of three values: `[a b c]`.
+
+  This namespace handle's parsing of MIDI data tuples to maps that
+  represnt there content and back. 
+
+  The values `[a b c]` typically encode the following:
+
+  - `a` - *message type* and some times a *channel* for that message type.
+  - `b` - *note* or *paramater number* for message.
+  - `c` - *velocity* or *value* for message.
+
+  This namespace handles parsing of these to maps in the following format:
+
+  `{:midi-msg message-type ... message-type specific parsing tuple}`
+
+  Examples might be:
+
+  - `{:midi-msg :note-on  :note 60 :vel 60 :channel 1}`
+  - `{:midi-msg :note-off :note 60 :vel 60 :channel 1}`
+  - `{:midi-msg :control :number 10 :value 60 :channel 1}`
+  - `{:midi-msg :clock}`
+  - `{:midi-msg :start}`
+  - `{:midi-msg :stop}`
+
+  ## Usage:
+
+  - `(decode [a b c])` translates from MIDI data tuple to map.
+  - `(encode m)` translates from map back to a MIDI data tuple."
   (:require [clojure.set :refer [map-invert]]))
 
-;; ## MIDI Message types
+;;;;  MIDI Message types
 
 (def midi-msg-type->n 
   "Maps MIDI message types to the numbers used to represent them."
@@ -59,7 +59,7 @@
   (or (inverse-n->midi-msg-type n) 
       (inverse-n->midi-msg-type (strip-channel n))))
 
-;; ### MIDI Message paramater types
+;;;;  MIDI Message paramater types
 
 (def midi-msg-type->msg-params 
   "Maps midi message type to a to the names that `b` and `c` paramater values
@@ -67,7 +67,7 @@
   {:note-on [:note :velocity] :note-off [:note :velocity]
    :control [:number :value]})
 
-;; ## Decodeing
+;;;; Decodeing
 
 (defn decode
   "Decodes MIDI message and transforms it to a map containing a representation
@@ -78,7 +78,7 @@
            (or (zipmap (midi-msg-type->msg-params msg-type) [b c])
                {:data data}))))
 
-;; ## Encoding
+;;;; Encoding
 
 (defn encode 
   "Takes representation of MIDI event provided as a map and turns it back to
