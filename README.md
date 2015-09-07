@@ -7,12 +7,13 @@ of the events they represent.
 
 ## Rationale
 
-To my knwoledge all of Clojure's exisiting MIDI related namespaces complect the
+To my knowledge all of Clojure's existing MIDI related namespaces complect the
 representation of MIDI messages with the mechanism for sending them.
 
-This library concerns its self only wih the representation of MIDI data and
+This library concerns its self only with the representation of MIDI data and
 conversion to and from tuples of 3 values utilised by the vast majority of
-backends.
+back ends (e.g. [WebMIDI](http://www.w3.org/TR/webmidi/) 
+and [javax.sound.midi](http://docs.oracle.com/javase/7/docs/api/javax/sound/midi/package-summary.html).
 
 ## Documentation
 
