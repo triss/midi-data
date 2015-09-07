@@ -2,7 +2,17 @@
 
 # midi-data
 
-Handles parsing of MIDI data tuples to maps containing friendly representations of the events they represent.
+Handles parsing of MIDI data tuples to maps containing friendly representations
+of the events they represent.
+
+## Rationale
+
+To my knwoledge all of Clojure's exisiting MIDI related namespaces complect the
+representation of MIDI messages with the mechanism for sending them.
+
+This library concerns its self only wih the representation of MIDI data and
+conversion to and from tuples of 3 values utilised by the vast majority of
+backends.
 
 ## Documentation
 
