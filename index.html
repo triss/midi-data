@@ -2866,73 +2866,102 @@ net.brehaut.ClojureTools = (function (SH) {
     build_tree: build_tree
   };
 })(SyntaxHighlighter);
-</script><title>org.clojars.triss/midi-data -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name"><a href="https://github.com/triss/midi-data/">org.clojars.triss/midi-data</a></h1><h2 class="project-version">0.1.1-SNAPSHOT</h2><br /><p>Handles parsing of MIDI data tuples to maps containing friendly
+</script><title>org.clojars.triss/midi-data -- Marginalia</title></head><body><table><tr><td class="docs"><div class="header"><h1 class="project-name"><a href="https://github.com/triss/midi-data/">org.clojars.triss/midi-data</a></h1><h2 class="project-version">0.2.0-SNAPSHOT</h2><br /><p>Handles parsing of MIDI data tuples to maps containing friendly
                representations of the events they represent.</p>
-</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.7.0</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#midi-data.core">midi-data.core</a></li><li><a href="#midi-data.core-test">midi-data.core-test</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#midi-data.core" name="midi-data.core"><h1 class="project-name">midi-data.core</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>MIDI data is often presented as a list of three values: <code>[a b c]</code>.</p>
+</div><div class="dependencies"><h3>dependencies</h3><table><tr><td class="dep-name">org.clojure/clojure</td><td class="dotted"><hr /></td><td class="dep-version">1.7.0</td></tr></table></div></td><td class="codes" style="text-align: center; vertical-align: middle;color: #666;padding-right:20px"><br /><br /><br />(this space intentionally left almost blank)</td></tr><tr><td class="docs"><div class="toc"><a name="toc"><h3>namespaces</h3></a><ul><li><a href="#midi-data.core">midi-data.core</a></li><li><a href="#midi-data.messages">midi-data.messages</a></li><li><a href="#midi-data.core-test">midi-data.core-test</a></li></ul></div></td><td class="codes">&nbsp;</td></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#midi-data.core" name="midi-data.core"><h1 class="project-name">midi-data.core</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>MIDI data is often presented as a list of three values: <code>[a b c]</code>.</p>
 
-<p>This namespace handle's parsing of such MIDI data tuples to maps containing
-friendlier representation of the events they represent.</p>
+<p>  This namespace handle's parsing of MIDI data tuples to maps that
+  represnt there content and back. </p>
 
-<p>The values <code>[a b c]</code> encode encode the following:</p>
+<p>  The values <code>[a b c]</code> typically encode the following:</p>
 
 <ul>
 <li><code>a</code> - <em>message type</em> and some times a <em>channel</em> for that message type.</li>
 <li><code>b</code> - <em>note</em> or <em>paramater number</em> for message.</li>
-<li><code>c</code> - <em>velocity</em> or <em>value</em> for message.</li>
-</ul>
+<li><p><code>c</code> - <em>velocity</em> or <em>value</em> for message.</p>
 
-<h2>Usage:</h2>
+<p>This namespace handles parsing of these to maps in the following format:</p>
 
-<ul>
-<li><code>(decode [a b c])</code> translates from MIDI data tuple to map.</li>
+<p><code>{:midi-msg message-type ... message-type specific parsing tuple}</code></p>
+
+<p>Examples might be:</p></li>
+<li><p><code>{:midi-msg :note-on  :note 60 :vel 60 :channel 1}</code></p></li>
+<li><code>{:midi-msg :note-off :note 60 :vel 60 :channel 1}</code></li>
+<li><code>{:midi-msg :control :number 10 :value 60 :channel 1}</code></li>
+<li><code>{:midi-msg :clock}</code></li>
+<li><code>{:midi-msg :start}</code></li>
+<li><p><code>{:midi-msg :stop}</code></p>
+
+<h2>Usage:</h2></li>
+<li><p><code>(decode [a b c])</code> translates from MIDI data tuple to map.</p></li>
 <li><code>(encode m)</code> translates from map back to a MIDI data tuple.</li>
 </ul>
-</td><td class="codes"></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(ns midi-data.core
-  (:require [clojure.set :refer [map-invert]]))</pre></td></tr><tr><td class="docs"><h2>MIDI Message types</h2>
+  (:require [clojure.set :refer [map-invert]]))</pre></td></tr><tr><td class="docs"><p> MIDI Message types</p>
 </td><td class="codes"></td></tr><tr><td class="docs"><p>Maps MIDI message types to the numbers used to represent them.</p>
-</td><td class="codes"><pre class="brush: clojure">(def msg-type-&gt;n 
+</td><td class="codes"><pre class="brush: clojure">(def midi-msg-type-&gt;n 
   {:clock    0xF8 :active   0xFE :sysex      0xF0 :eox     0xF7 
    :start    0xFA :stop     0xFC :continue   0xFB :reset   0xFF 
    :note-on  0x90 :note-off 0x80 :channel-at 0xD0 :poly-at 0xA0 
    :program  0xC0 :control  0xB0 :pitchbend  0xE0 :mtc     0xF1 
    :song-pos 0xF2 :song-sel 0xF3 :tune       0xF6})</pre></td></tr><tr><td class="docs"><p>Map of numbers to midi msg types. Channel numbers often need to be removed
   with a fn like quantize before they can be looked up using this.</p>
-</td><td class="codes"><pre class="brush: clojure">(def inverse-n-&gt;msg-type 
-  (map-invert msg-type-&gt;n))</pre></td></tr><tr><td class="docs"><p>Returns key representing meaning of numerical value. If n has channel number
+</td><td class="codes"><pre class="brush: clojure">(def inverse-n-&gt;midi-msg-type 
+  (map-invert midi-msg-type-&gt;n))</pre></td></tr><tr><td class="docs"><p>Returns channel indicated by value. Typically used on first value of MIDI
+  data tuple.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn n-&gt;channel
+  [n] (bit-and n 0x0F))</pre></td></tr><tr><td class="docs">
+</td><td class="codes"><pre class="brush: clojure">(defn strip-channel 
+  [n] (bit-and-not n 0xF))</pre></td></tr><tr><td class="docs"><p>Returns key representing meaning of numerical value. If n has channel number
   encoded within it it is discarded.</p>
-</td><td class="codes"><pre class="brush: clojure">(defn n-&gt;msg-type 
+</td><td class="codes"><pre class="brush: clojure">(defn n-&gt;midi-msg-type
   [n] 
-  (or (inverse-n-&gt;msg-type n) 
-      (-&gt; n (bit-and-not 0xF) inverse-n-&gt;msg-type)))</pre></td></tr><tr><td class="docs"><h3>MIDI Message paramater types</h3>
+  (or (inverse-n-&gt;midi-msg-type n) 
+      (inverse-n-&gt;midi-msg-type (strip-channel n))))</pre></td></tr><tr><td class="docs"><p> MIDI Message paramater types</p>
 </td><td class="codes"></td></tr><tr><td class="docs"><p>Maps midi message type to a to the names that <code>b</code> and <code>c</code> paramater values
   represent.</p>
-</td><td class="codes"><pre class="brush: clojure">(def msg-type-&gt;msg-params 
+</td><td class="codes"><pre class="brush: clojure">(def midi-msg-type-&gt;msg-params 
   {:note-on [:note :velocity] :note-off [:note :velocity]
-   :control [:number :value]})</pre></td></tr><tr><td class="docs"><p>Returns channel indicated by value. Typically used on first value of MIDI
-  data tuple.</p>
-</td><td class="codes"><pre class="brush: clojure">(defn n-&gt;channel 
-  [n] (bit-and n 0x0F))</pre></td></tr><tr><td class="docs"><h2>Decodeing</h2>
+   :control [:number :value]})</pre></td></tr><tr><td class="docs"><p>Decodeing</p>
 </td><td class="codes"></td></tr><tr><td class="docs"><p>Decodes MIDI message and transforms it to a map containing a representation
   of the MIDI message being sent.</p>
 </td><td class="codes"><pre class="brush: clojure">(defn decode
   [[a b c :as data]] 
-  (let [msg-type (n-&gt;msg-type a)] 
-    (merge {:msg-type msg-type :channel (n-&gt;channel a)}
-           (or (zipmap (msg-type-&gt;msg-params msg-type) [b c])
-               {:data data}))))</pre></td></tr><tr><td class="docs"><h2>Encoding</h2>
+  (let [msg-type (n-&gt;midi-msg-type a)] 
+    (merge {:midi-msg msg-type :channel (n-&gt;channel a)}
+           (or (zipmap (midi-msg-type-&gt;msg-params msg-type) [b c])
+               {:data data}))))</pre></td></tr><tr><td class="docs"><p>Encoding</p>
 </td><td class="codes"></td></tr><tr><td class="docs"><p>Takes representation of MIDI event provided as a map and turns it back to
   a data tuple of <code>[a b c]</code></p>
 </td><td class="codes"><pre class="brush: clojure">(defn encode 
-  [{:keys [msg-type channel] :or {channel 0} :as m}]
-  (cons (+ (msg-type-&gt;n msg-type) channel) 
-        ((apply juxt (msg-type-&gt;msg-params msg-type)) m)))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#midi-data.core-test" name="midi-data.core-test"><h1 class="project-name">midi-data.core-test</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>Tests for midi-data.core.</p>
+  [{:keys [midi-msg channel] :or {channel 0} :as m}]
+  (cons (+ (midi-msg-type-&gt;n midi-msg) channel) 
+        ((apply juxt (midi-msg-type-&gt;msg-params midi-msg)) m)))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#midi-data.messages" name="midi-data.messages"><h1 class="project-name">midi-data.messages</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>Provide's functions for quickly creating MIDI messages of various types.</p>
+</td><td class="codes"><pre class="brush: clojure">(ns midi-data.messages)</pre></td></tr><tr><td class="docs"><p>Construct's a note on message.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn note-on 
+  [note velocity &amp; [channel]] 
+  {:midi-msg :note-on
+   :note     note
+   :velocity velocity
+   :channel  (or channel 0)})</pre></td></tr><tr><td class="docs"><p>Construct's a note off message.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn note-off 
+  [note velocity &amp; [channel]] 
+  {:midi-msg :note-off
+   :note     note
+   :velocity velocity
+   :channel  (or channel 0)})</pre></td></tr><tr><td class="docs"><p>Construct's a control (sometimes called cc) message.</p>
+</td><td class="codes"><pre class="brush: clojure">(defn control
+  [number value &amp; [channel]] 
+  {:midi-msg :control
+   :number   number
+   :value    value
+   :channel  (or channel 0)})</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr><tr><td class="docs"><div class="docs-header"><a class="anchor" href="#midi-data.core-test" name="midi-data.core-test"><h1 class="project-name">midi-data.core-test</h1><a class="toc-link" href="#toc">toc</a></a></div></td><td class="codes" /></tr><tr><td class="docs"><p>Tests for midi-data.core.</p>
 </td><td class="codes"><pre class="brush: clojure">(ns midi-data.core-test
   (:use midje.sweet)
   (:use [midi-data.core]))</pre></td></tr><tr><td class="docs"><p>Represents a note-on on channel 1 with velocity 100 and note of 60. </p>
 </td><td class="codes"><pre class="brush: clojure">(def test-map 
   {:channel 1 
-   :msg-type :note-on 
+   :midi-msg :note-on 
    :note 60 
    :velocity 100})</pre></td></tr><tr><td class="docs">
 </td><td class="codes"><pre class="brush: clojure">(facts &quot;about `decode`&quot;
@@ -2944,7 +2973,7 @@ friendlier representation of the events they represent.</p>
        (fact &quot;Converts data in map back to MIDI data tuple.&quot;
              (encode  test-map)              =&gt; [0x91 60 100])
        (fact &quot;`encode` is practically inverse of `decode`&quot;
-             (encode (decode [0x91 60 100])) =&gt; [0x91 60 100]))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr></table><div class="footer">Generated by <a href="https://github.com/gdeer81/marginalia">Marginalia</a>.&nbsp;&nbsp;Syntax highlighting provided by Alex Gorbatchev's <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a><div id="floating-toc"><ul><li class="floating-toc-li" id="floating-toc_midi-data.core">midi-data.core</li><li class="floating-toc-li" id="floating-toc_midi-data.core-test">midi-data.core-test</li></ul></div></div><script type="text/javascript">SyntaxHighlighter.defaults['gutter'] = false;
+             (encode (decode [0x91 60 100])) =&gt; [0x91 60 100]))</pre></td></tr><tr><td class="spacer docs">&nbsp;</td><td class="codes" /></tr></table><div class="footer">Generated by <a href="https://github.com/gdeer81/marginalia">Marginalia</a>.&nbsp;&nbsp;Syntax highlighting provided by Alex Gorbatchev's <a href="http://alexgorbatchev.com/SyntaxHighlighter/">SyntaxHighlighter</a><div id="floating-toc"><ul><li class="floating-toc-li" id="floating-toc_midi-data.core">midi-data.core</li><li class="floating-toc-li" id="floating-toc_midi-data.messages">midi-data.messages</li><li class="floating-toc-li" id="floating-toc_midi-data.core-test">midi-data.core-test</li></ul></div></div><script type="text/javascript">SyntaxHighlighter.defaults['gutter'] = false;
 SyntaxHighlighter.all();
 
 // hackity hack
