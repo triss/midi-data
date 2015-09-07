@@ -12,8 +12,9 @@ representation of MIDI messages with the mechanism for sending them.
 
 This library concerns its self only with the representation of MIDI data and
 conversion to and from tuples of 3 values utilised by the vast majority of
-back ends (e.g. [WebMIDI](http://www.w3.org/TR/webmidi/) 
-and [javax.sound.midi](http://docs.oracle.com/javase/7/docs/api/javax/sound/midi/package-summary.html).
+back ends, for example [WebMIDI](http://www.w3.org/TR/webmidi/) 
+and [javax.sound.midi](http://docs.oracle.com/javase/7/docs/api/javax/sound/midi/package-summary.html)
+both communicate using these.
 
 ## Documentation
 
