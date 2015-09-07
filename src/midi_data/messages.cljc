@@ -7,15 +7,15 @@
   {:midi-msg :note-on
    :note     note
    :velocity velocity
-   :channel  channel})
+   :channel  (or channel 0)})
 
 (defn note-off 
-  "Construct's a note on message."
+  "Construct's a note off message."
   [note velocity & [channel]] 
   {:midi-msg :note-off
    :note     note
    :velocity velocity
-   :channel  channel})
+   :channel  (or channel 0)})
 
 (defn control
   "Construct's a control (sometimes called cc) message."
@@ -23,4 +23,4 @@
   {:midi-msg :control
    :number   number
    :value    value
-   :channel  channel})
+   :channel  (or channel 0)})
